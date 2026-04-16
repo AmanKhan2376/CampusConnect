@@ -1,0 +1,20 @@
+{
+  "name": "campusconnect",
+  "version": "1.0.0",
+  "description": "A centralized platform that helps students discover, organize, and act on opportunities like internships, hackathons, contests, and more — all in one place.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "Aman Khan",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "ejs": "^5.0.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.4.1"
+  }
+}
