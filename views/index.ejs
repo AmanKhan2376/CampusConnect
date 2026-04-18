@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campus Connect</title>
+  </head>
+  <body>
+    <h1>Opportunities</h1>
+
+    <% if (opportunities.length === 0) { %>
+    <p>No opportunities available!</p>
+    <% } else { %> <% for (const opportunity of opportunities) { %>
+    <hr />
+
+    <p><strong>Title:</strong> <%= opportunity.title %></p>
+    <p><strong>Type:</strong> <%= opportunity.type %></p>
+    <p><strong>Organizer:</strong> <%= opportunity.organizer %></p>
+
+    <p>
+      <strong>Deadline:</strong>
+      <%= new Date(opportunity.deadline).toDateString() %>
+    </p>
+
+    <% if (opportunity.eventDate) { %>
+    <p>
+      <strong>Event Date:</strong>
+      <%= new Date(opportunity.eventDate).toDateString() %>
+    </p>
+    <% } %>
+
+    <p><strong>Mode:</strong> <%= opportunity.mode %></p>
+
+    <% if (opportunity.location) { %>
+    <p><strong>Location:</strong> <%= opportunity.location %></p>
+    <% } %> <% if (opportunity.startTime && opportunity.endTime) { %>
+    <p>
+      <strong>Time:</strong>
+      <%= new Date(opportunity.startTime).toLocaleTimeString() %> - <%= new
+      Date(opportunity.endTime).toLocaleTimeString() %>
+    </p>
+    <% } %>
+
+    <a href="/opportunity/<%= opportunity._id %>">View Details</a>
+
+    <hr />
+    <% } %> <% } %>
+  </body>
+</html>

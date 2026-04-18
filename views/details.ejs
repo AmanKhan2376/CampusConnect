@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campus Connect</title>
+  </head>
+  <body>
+    <a href="/">← Back to Opportunities</a>
+    <h1><%= opportunity.title %></h1>
+    <p><strong>Type: </strong><%= opportunity.type %></p>
+    <p><strong>Organizer: </strong><%= opportunity.organizer %></p>
+    <p>
+      <strong>Last date to register: </strong><%= new
+      Date(opportunity.deadline).toDateString() %>
+    </p>
+    <% if (new Date(opportunity.deadline) > new Date()) { %>
+    <a href="<%= opportunity.applyLink %>" target="_blank"> Register Now </a>
+    <% } else { %> Registration Closed <% } %> <% if (opportunity.eventDate) {
+    %>
+    <p>
+      <strong>Event Date: </strong><%= new
+      Date(opportunity.eventDate).toDateString() %>
+    </p>
+    <% } %> <% if (opportunity.startTime && opportunity.endTime) { %>
+    <p>
+      <strong>Time:</strong>
+      <%= new Date(opportunity.startTime).toLocaleTimeString() %> - <%= new
+      Date(opportunity.endTime).toLocaleTimeString() %>
+    </p>
+    <% } %>
+    <p><strong>Mode: </strong><%= opportunity.mode %></p>
+    <% if (opportunity.location) { %>
+    <p><strong>Location: </strong><%= opportunity.location %></p>
+    <% } %> <% if (opportunity.eligibility) {%>
+    <p><strong>Eligibility Criteria:</strong></p>
+    <ul>
+      <% for (const e of opportunity.eligibility) { %>
+      <li><%= e %></li>
+      <% } %>
+    </ul>
+    <% } %> <% if (opportunity.tags) { %>
+    <p><strong>Tags: </strong> <%= opportunity.tags.join(", ") %></p>
+    <% } %> <%if (opportunity.skills) {%>
+    <p>
+      <strong>Required Skills:</strong> <%= opportunity.skills.join(", ") %>
+    </p>
+    <% } %> <% if (opportunity.description) { %>
+    <p><strong>Description:</strong></p>
+    <p><%= opportunity.description %></p>
+    <% } %> <% if (opportunity.coordinators) { %> <% if
+    (opportunity.coordinators) { %>
+    <p><strong>Coordinators:</strong></p>
+    <ul>
+      <% for (const c of opportunity.coordinators) { %>
+      <li>
+        <strong>Name: </strong><%= c.name %>, <strong>Contact: </strong><%=
+        c.contact %>
+      </li>
+      <% } %>
+    </ul>
+    <% } %> <% } %>
+  </body>
+</html>

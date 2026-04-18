@@ -7,6 +7,9 @@ import { fileURLToPath } from "url";
 // Internal Dependencies
 import connectDb from "./config/db.js";
 
+// Models
+import Opportunity from "./models/opportunity.model.js";
+
 // Constants
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,9 +27,57 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Test Route
-app.get("/", (req, res) => {
-  res.send("CampusConnect is running 🚀");
+// Routes
+app.get("/api/opportunities", async (req, res) => {
+  try {
+    const opportunities = await Opportunity.find({
+      status: "approved",
+      deadline: { $gte: new Date() },
+    })
+      .select(
+        "_id title type organizer deadline location eventDate mode startTime endTime",
+      )
+      .sort({ deadline: 1 });
+    res.status(200).json({ status: "ok", opportunities });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ status: "error", message: "Something went wrong!" });
+  }
+});
+
+app.get("/api/opportunity/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const opportunity = await Opportunity.findById(id);
+
+    res.status(200).json({ status: "ok", opportunity });
+  } catch (err) {
+    res.status(500).json({ status: "error", message: "Something went wrong!" });
+  }
+});
+
+app.get("/", async (req, res) => {
+  const response = await fetch("http://localhost:8080/api/opportunities");
+  const data = await response.json();
+
+  res.render("index", { opportunities: data.opportunities });
+});
+
+app.get("/opportunity/:id", async (req, res) => {
+  const { id } = req.params;
+  const response = await fetch(`http://localhost:8080/api/opportunity/${id}`);
+  const data = await response.json();
+
+  if (!data.opportunity) {
+    return res.send("Opportunity not found!");
+  }
+
+  res.render("details", { opportunity: data.opportunity });
+});
+
+app.get("/admin", (req, res) => {
+  res.send("Admin Panel");
 });
 
 // Error handler
